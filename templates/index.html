@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Form</title>
+</head>
+<body>
+
+<form id="name_form">
+    <label>First Name:</label><input type="text" name="first_name"/>
+    <br/>
+    <label>Last Name:</label><input type="text" name="last_name"/>
+    <br/>
+    <select name="gender">
+        <option value="m">Masculino</option>
+        <option value="f">Feminino</option>
+    </select>
+    <input type="button" value="enviar" id="envio" name="envio"/>
+</form>
+
+<input type="text" id="result" name="result"/>
+
+<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+<script type="text/javascript">
+    $('#envio').click(function (e) {
+        e.preventDefault();
+        alert($('[name=first_name]').val() + ' ' + $('[name=last_name]').val() + ' + ' + $('[name=gender]').val());
+
+        $.ajax({
+            type: 'POST',
+            url: '/create',
+            data: $('form').serialize(),
+            success: function (callback) {
+                console.log(callback);
+                $('#result').val('Ola ' + callback.first_name);
+            },
+            error: function () {
+                $(this).html("error!");
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
